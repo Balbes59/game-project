@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     readonly Vector2 force3 = new Vector2(-5, 0);
     readonly Vector2 force4 = new Vector2(3, 1);
     readonly Vector2 vmax = new Vector2(6, 10);
+    readonly Vector2 rivok = new Vector2(40, 0);
+    float nextrTime = 0f;
+    public float rRate = 2f;
     bool inAir;
 
     private void Start()
@@ -30,6 +33,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             obj.AddForce(force2);
+        }
+        if(Time.time >= nextrTime)
+        {
+            if (Input.GetKey(KeyCode.C))
+            {
+                obj.AddForce(rivok * obj.velocity.x / obj.velocity.x);
+                nextrTime = Time.time + 1f / rRate;
+            }
         }
         obj.AddForce(new Vector2(-1 * force4.x * obj.velocity.x / vmax.x, -1 * force4.y * obj.velocity.y / vmax.y));
     }
