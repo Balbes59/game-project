@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class nextlevel : MonoBehaviour
-{
+{   public int needed_scene;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -15,6 +15,6 @@ public class nextlevel : MonoBehaviour
      private void UnlockNextLevel()
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentScene + 1);
+        SceneManager.LoadScene(needed_scene);
     }
 }
