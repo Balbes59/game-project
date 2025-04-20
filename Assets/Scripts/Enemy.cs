@@ -9,7 +9,7 @@ public class enemy : MonoBehaviour
 {
     public Vector2 target;
     public Vector2 Pos;
-    public float base_speed = 5.0f;
+    public float base_speed = 0.8f;
     private GameObject Hero;
     Rigidbody2D me;
     private float delta = 0;
@@ -17,8 +17,8 @@ public class enemy : MonoBehaviour
     public bool isHsm = false;
     private bool hjp = true;
     private bool jump = false;
-    public float air_frict = 0.15f;
-    public float hsmDistance = 15.0f;
+    public float air_frict = 1.1f;
+    public float hsmDistance = 10.0f;
     public float visionK = 1.5f;
     public bool ableToJump = true;
     public float atk_dmg = 5.0f;
@@ -42,18 +42,18 @@ public class enemy : MonoBehaviour
         {
             if (target.x > Pos.x)
             {
-                me.AddForce(new Vector2(speed * GetComponent<Rigidbody2D>().mass, 0));
+                me.AddForce(new Vector2(speed , 0));
                 napr = true;
             }
             if (target.x < Pos.x)
             {
-                me.AddForce(new Vector2(-speed * GetComponent<Rigidbody2D>().mass, 0));
+                me.AddForce(new Vector2(-speed , 0));
                 napr = false;
             }
             if ((target.x - Pos.x) > hsmDistance * visionK || (target.x - Pos.x) < -hsmDistance * visionK) isHsm = false;
             if (ableToJump && jump && hjp && target.y > Pos.y + 0.2f)
             {
-                me.AddForce(new Vector2(0, 1.9f / Time.deltaTime));
+                me.AddForce(new Vector2(0, 0.5f / Time.deltaTime));
                 jump = false;
                 hjp = false;
             }
@@ -67,7 +67,7 @@ public class enemy : MonoBehaviour
                 if (Pos.x < target.x && Pos.x - target.x > -hsmDistance) isHsm = true;
                 else if (delta < patrol_dist)
                 {
-                    if (timer > waitTime) me.AddForce(new Vector2(0.4f * speed * GetComponent<Rigidbody2D>().mass, 0));
+                    if (timer > waitTime) me.AddForce(new Vector2(0.4f * speed , 0));
                     else me.AddForce(new Vector2(-19 * air_frict * me.velocity.x, -1 * air_frict * me.velocity.y));
                 }
                 else
@@ -82,7 +82,7 @@ public class enemy : MonoBehaviour
                 if (Pos.x > target.x && Pos.x - target.x < hsmDistance) isHsm = true;
                 else if (delta > -patrol_dist)
                 {
-                    if (timer > waitTime) me.AddForce(new Vector2(-0.4f * speed * GetComponent<Rigidbody2D>().mass, 0));
+                    if (timer > waitTime) me.AddForce(new Vector2(-0.4f * speed , 0));
                     else me.AddForce(new Vector2(-19 * air_frict * me.velocity.x, -1 * air_frict * me.velocity.y));
                 }
                 else
@@ -101,7 +101,7 @@ public class enemy : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            me.AddForce(new Vector2( 0 , 20 * GetComponent<Rigidbody2D>().mass));
+            me.AddForce(new Vector2( 0 ,  20 ));
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
